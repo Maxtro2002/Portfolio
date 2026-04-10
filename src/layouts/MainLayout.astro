@@ -1,0 +1,99 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  locale?: string;
+}
+
+const { title, description = 'Portfolio website', locale = 'es' } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      const theme = savedTheme === 'light' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #0d1117;
+    --surface: rgba(22, 27, 34, 0.92);
+    --text: #e6edf3;
+    --muted: #9aa4b2;
+    --accent: #7cb7ff;
+    --border: #263041;
+    --container: 1080px;
+  }
+
+  :root[data-theme='light'] {
+    --bg: #f6f6f3;
+    --surface: #ffffff;
+    --text: #171a1f;
+    --muted: #5f6672;
+    --accent: #0072f5;
+    --border: #d7dde7;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 10% 20%, rgba(66, 133, 244, 0.16) 0%, transparent 28%),
+      radial-gradient(circle at 90% 10%, rgba(120, 220, 180, 0.12) 0%, transparent 24%),
+      var(--bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+  }
+
+  main {
+    width: min(100% - 2rem, var(--container));
+    margin-inline: auto;
+    padding-block: 2rem 4rem;
+  }
+
+  section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    padding: 1.5rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  button {
+    font: inherit;
+  }
+</style>

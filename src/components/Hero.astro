@@ -1,0 +1,45 @@
+---
+import type { TranslationSchema } from '../i18n/translations';
+
+interface Props {
+  t: TranslationSchema;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="hero">
+  <p>{t.hero.greeting}</p>
+  <h1>{t.hero.name}</h1>
+  <p>{t.hero.role}</p>
+  <div>
+    <a href="#projects">{t.hero.ctaPrimary}</a>
+    <a href="#contact">{t.hero.ctaSecondary}</a>
+  </div>
+</section>
+
+<style>
+  #hero {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  div {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  a {
+    border: 1px solid var(--accent);
+    border-radius: 0.6rem;
+    padding: 0.5rem 0.85rem;
+    text-decoration: none;
+  }
+</style>

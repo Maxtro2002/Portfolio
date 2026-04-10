@@ -1,0 +1,21 @@
+---
+import type { TranslationSchema } from '../i18n/translations';
+
+interface Props {
+  t: TranslationSchema;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="about">
+  <h2>{t.about.title}</h2>
+  <p>{t.about.text}</p>
+</section>
+
+<style>
+  section {
+    display: grid;
+    gap: 0.5rem;
+  }
+</style>

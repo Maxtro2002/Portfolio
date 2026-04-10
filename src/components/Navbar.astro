@@ -1,0 +1,87 @@
+---
+import type { Locale, TranslationSchema } from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  t: TranslationSchema;
+}
+
+const { locale, t } = Astro.props;
+const nextLocale = locale === 'es' ? 'en' : 'es';
+---
+
+<header>
+  <nav>
+    <a href="#about">{t.nav.about}</a>
+    <a href="#skills">{t.nav.skills}</a>
+    <a href="#projects">{t.nav.projects}</a>
+    <a href="#experience">{t.nav.experience}</a>
+    <a href="#contact">{t.nav.contact}</a>
+    <a href={`/?lang=${nextLocale}`}>{t.nav.langLabel}: {nextLocale.toUpperCase()}</a>
+    <button type="button" data-theme-toggle aria-label="Cambiar tema"></button>
+  </nav>
+</header>
+
+<script is:inline>
+  const button = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+
+  const getThemeLabel = () => (root.dataset.theme === 'dark' ? 'Tema: oscuro' : 'Tema: claro');
+
+  const syncButton = () => {
+    if (!button) return;
+    button.textContent = getThemeLabel();
+  };
+
+  if (!root.dataset.theme) {
+    root.dataset.theme = 'dark';
+    root.style.colorScheme = 'dark';
+  }
+
+  syncButton();
+
+  button?.addEventListener('click', () => {
+    const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = nextTheme;
+    root.style.colorScheme = nextTheme;
+    localStorage.setItem('theme', nextTheme);
+    syncButton();
+  });
+</script>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav {
+    width: min(100% - 2rem, var(--container));
+    margin-inline: auto;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 0.8rem;
+  }
+
+  a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  button {
+    margin-left: auto;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+  }
+</style>

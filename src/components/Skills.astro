@@ -1,0 +1,25 @@
+---
+import type { TranslationSchema } from '../i18n/translations';
+
+interface Props {
+  t: TranslationSchema;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="skills">
+  <h2>{t.skills.title}</h2>
+  <ul>
+    {t.skills.items.map((skill) => <li>{skill}</li>)}
+  </ul>
+</section>
+
+<style>
+  ul {
+    margin: 0.75rem 0 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+</style>

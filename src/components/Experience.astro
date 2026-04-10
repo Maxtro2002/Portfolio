@@ -1,0 +1,14 @@
+---
+import type { TranslationSchema } from '../i18n/translations';
+
+interface Props {
+  t: TranslationSchema;
+}
+
+const { t } = Astro.props;
+---
+
+<section id="experience">
+  <h2>{t.experience.title}</h2>
+  <p>{t.experience.empty}</p>
+</section>
