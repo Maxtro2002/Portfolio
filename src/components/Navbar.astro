@@ -7,7 +7,6 @@ interface Props {
 }
 
 const { locale, t } = Astro.props;
-const nextLocale = locale === 'es' ? 'en' : 'es';
 ---
 
 <header>
@@ -17,13 +16,20 @@ const nextLocale = locale === 'es' ? 'en' : 'es';
     <a href="#projects">{t.nav.projects}</a>
     <a href="#experience">{t.nav.experience}</a>
     <a href="#contact">{t.nav.contact}</a>
-    <a href={`/?lang=${nextLocale}`}>{t.nav.langLabel}: {nextLocale.toUpperCase()}</a>
+    <label class="language-selector">
+      <span>{t.nav.langLabel}</span>
+      <select data-language-select value={locale} aria-label={t.nav.langLabel}>
+        <option value="es">🇪🇸 Espanol</option>
+        <option value="en">🇺🇸 English</option>
+      </select>
+    </label>
     <button type="button" data-theme-toggle aria-label="Cambiar tema"></button>
   </nav>
 </header>
 
 <script is:inline>
   const button = document.querySelector('[data-theme-toggle]');
+  const languageSelect = document.querySelector('[data-language-select]');
   const root = document.documentElement;
 
   const getThemeLabel = () => (root.dataset.theme === 'dark' ? 'Tema: oscuro' : 'Tema: claro');
@@ -46,6 +52,15 @@ const nextLocale = locale === 'es' ? 'en' : 'es';
     root.style.colorScheme = nextTheme;
     localStorage.setItem('theme', nextTheme);
     syncButton();
+  });
+
+  languageSelect?.addEventListener('change', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', target.value);
+    window.location.href = url.toString();
   });
 </script>
 
@@ -75,8 +90,24 @@ const nextLocale = locale === 'es' ? 'en' : 'es';
     text-decoration: none;
   }
 
-  button {
+  .language-selector {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+  }
+
+  .language-selector select {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+    cursor: pointer;
+  }
+
+  button {
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);

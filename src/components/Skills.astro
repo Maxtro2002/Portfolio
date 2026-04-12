@@ -1,25 +1,105 @@
 ---
-import type { TranslationSchema } from '../i18n/translations';
+import projectData from '../../data/projects/projects.json';
+import type { Locale, TranslationSchema } from '../i18n/translations';
 
 interface Props {
   t: TranslationSchema;
+  locale: Locale;
 }
 
-const { t } = Astro.props;
+const { t, locale } = Astro.props;
+
+const source = locale === 'es' ? projectData.es : projectData.en;
+const labels =
+  locale === 'es'
+    ? {
+        experience: 'Experiencia profesional',
+        freelance: 'Proyectos freelance',
+      }
+    : {
+        experience: 'Professional experience',
+        freelance: 'Freelance projects',
+      };
 ---
 
 <section id="skills">
   <h2>{t.skills.title}</h2>
-  <ul>
-    {t.skills.items.map((skill) => <li>{skill}</li>)}
-  </ul>
+
+  <h3>{labels.experience}</h3>
+  <div class="skills-grid">
+    {source.experience.map((job) => (
+      <article class="skill-card">
+        <p class="entity">{job.company}</p>
+        <p class="role">{job.role}</p>
+        <ul class="chips">
+          {[...new Set(job.techStack)].map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+
+  <h3>{labels.freelance}</h3>
+  <div class="skills-grid">
+    {source.freelance.map((project) => (
+      <article class="skill-card">
+        <p class="entity">{project.name}</p>
+        <p class="role">{project.type}</p>
+        <ul class="chips">
+          {[...new Set(project.techStack)].map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
 </section>
 
 <style>
-  ul {
-    margin: 0.75rem 0 0;
-    padding-left: 1.2rem;
+  h3 {
+    margin: 1rem 0 0.6rem;
+    font-size: 1rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .skill-card {
+    border: 1px solid var(--border);
+    border-radius: 0.7rem;
+    padding: 0.75rem;
+    background: color-mix(in srgb, var(--bg) 90%, var(--accent) 10%);
+  }
+
+  .entity {
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .role {
+    margin: 0.2rem 0 0.65rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
     gap: 0.35rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  .chips li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.85rem;
+    text-align: center;
   }
 </style>

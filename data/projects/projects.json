@@ -1,0 +1,142 @@
+{
+  "es": {
+    "status": "en_progreso",
+    "note": "Base inicial cargada desde CV (experiencia y proyectos freelance). Se refinara el formato visual de proyectos despues.",
+    "experience": [
+      {
+        "company": "LendFlow",
+        "role": "Desarrollador Full Stack",
+        "period": "Sept 2025 - Dec 2025",
+        "highlights": [
+          "Desarrolle y mantuve servicios backend para operaciones financieras.",
+          "Migre automatizaciones de n8n a microservicios en Java/Python, reduciendo fallas en 30%.",
+          "Optimice APIs REST, mejorando tiempos de respuesta hasta en 20%."
+        ],
+        "techStack": ["Java", "Python", "Microservices", "REST APIs", "n8n"]
+      },
+      {
+        "company": "SIGAG S.A.S",
+        "role": "Desarrollador Full Stack",
+        "period": "Jan 2025 - Sept 2025",
+        "highlights": [
+          "Mantuve y mejore un sistema de gestion empresarial.",
+          "Desarrolle nuevos modulos que redujeron la carga operativa manual.",
+          "Optimice consultas SQLite, mejorando el rendimiento en 40%."
+        ],
+        "techStack": ["Java", "SQLite"]
+      },
+      {
+        "company": "SIGAG S.A.S",
+        "role": "Desarrollador Mobile Junior",
+        "period": "Jan 2024 - Jan 2025",
+        "highlights": [
+          "Lidere el ciclo completo de desarrollo de aplicacion movil.",
+          "Integre APIs REST y comunicacion en tiempo real.",
+          "Implemente arquitectura offline-first con SQLite.",
+          "Mejore rendimiento con Kotlin Coroutines."
+        ],
+        "techStack": ["Kotlin", "Java", "REST APIs", "JSON", "SQLite", "Retrofit"]
+      },
+      {
+        "company": "D&H Pallets",
+        "role": "Desarrollador",
+        "period": "Feb 2023 - Oct 2023",
+        "highlights": [
+          "Desarrolle landing page y servicios backend."
+        ],
+        "techStack": ["React", "NextJS", "Java", "Spring Boot", "PostgreSQL"]
+      }
+    ],
+    "freelance": [
+      {
+        "name": "Sitio web para empresa de carpinteria",
+        "type": "WordPress",
+        "description": "Desarrolle sitio corporativo para empresa de carpinteria personalizada y soluciones de interiores.",
+        "highlights": [
+          "Diseno responsive con tema Astra y Elementor."
+        ],
+        "techStack": ["WordPress", "Astra Theme", "Elementor"]
+      },
+      {
+        "name": "App movil de streaming",
+        "type": "Flutter",
+        "description": "Desarrolle app movil para streaming de contenido audiovisual independiente en Colombia.",
+        "highlights": [
+          "Arquitectura escalable e integracion de APIs."
+        ],
+        "techStack": ["Flutter", "REST APIs"]
+      }
+    ],
+    "items": []
+  },
+  "en": {
+    "status": "in_progress",
+    "note": "Initial base loaded from CV (experience and freelance projects). The visual project format will be refined later.",
+    "experience": [
+      {
+        "company": "LendFlow",
+        "role": "Full Stack Developer",
+        "period": "Sept 2025 - Dec 2025",
+        "highlights": [
+          "Engineered and maintained backend services supporting financial operations.",
+          "Migrated workflow automation from n8n to Java/Python microservices, reducing failures by 30%.",
+          "Optimized REST APIs, improving response times by up to 20%."
+        ],
+        "techStack": ["Java", "Python", "Microservices", "REST APIs", "n8n"]
+      },
+      {
+        "company": "SIGAG S.A.S",
+        "role": "Full Stack Developer",
+        "period": "Jan 2025 - Sept 2025",
+        "highlights": [
+          "Maintained and improved a business management system.",
+          "Developed new modules that reduced manual workload.",
+          "Optimized SQLite queries, improving performance by 40%."
+        ],
+        "techStack": ["Java", "SQLite"]
+      },
+      {
+        "company": "SIGAG S.A.S",
+        "role": "Junior Mobile Developer",
+        "period": "Jan 2024 - Jan 2025",
+        "highlights": [
+          "Led full-cycle mobile app development.",
+          "Integrated REST APIs and real-time communication.",
+          "Implemented offline-first architecture using SQLite.",
+          "Improved performance with Kotlin Coroutines."
+        ],
+        "techStack": ["Kotlin", "Java", "REST APIs", "JSON", "SQLite", "Retrofit"]
+      },
+      {
+        "company": "D&H Pallets",
+        "role": "Developer",
+        "period": "Feb 2023 - Oct 2023",
+        "highlights": [
+          "Developed landing page and backend services."
+        ],
+        "techStack": ["React", "NextJS", "Java", "Spring Boot", "PostgreSQL"]
+      }
+    ],
+    "freelance": [
+      {
+        "name": "Carpentry Business Website",
+        "type": "WordPress",
+        "description": "Developed a corporate website for a custom carpentry and interior solutions company.",
+        "highlights": [
+          "Implemented responsive design using Astra theme and Elementor."
+        ],
+        "techStack": ["WordPress", "Astra Theme", "Elementor"]
+      },
+      {
+        "name": "Streaming Mobile App",
+        "type": "Flutter",
+        "description": "Built a mobile application for independent audiovisual content streaming in Colombia.",
+        "highlights": [
+          "Implemented scalable architecture and API integration."
+        ],
+        "techStack": ["Flutter", "REST APIs"]
+      }
+    ],
+    "items": []
+  }
+}

@@ -1,14 +1,92 @@
 ---
-import type { TranslationSchema } from '../i18n/translations';
+import projectData from '../../data/projects/projects.json';
+import type { Locale, TranslationSchema } from '../i18n/translations';
 
 interface Props {
   t: TranslationSchema;
+  locale: Locale;
 }
 
-const { t } = Astro.props;
+const { t, locale } = Astro.props;
+const source = locale === 'es' ? projectData.es : projectData.en;
 ---
 
 <section id="projects">
   <h2>{t.projects.title}</h2>
-  <p>{t.projects.empty}</p>
+
+  <div class="project-grid">
+    {source.freelance.map((project) => (
+      <article class="project-card">
+        <h3>{project.name}</h3>
+        <p class="type">{project.type}</p>
+        <p>{project.description}</p>
+
+        <ul class="highlights">
+          {project.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+
+        <ul class="tech">
+          {[...new Set(project.techStack)].map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
 </section>
+
+<style>
+  #projects {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    padding: 0.9rem;
+    background: color-mix(in srgb, var(--bg) 92%, var(--accent) 8%);
+  }
+
+  .project-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .type {
+    margin: 0.25rem 0 0.55rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .highlights {
+    margin: 0.6rem 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .tech {
+    list-style: none;
+    margin: 0.55rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tech li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.8rem;
+  }
+</style>
