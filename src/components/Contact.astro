@@ -12,8 +12,20 @@ const { t } = Astro.props;
   <h2>{t.contact.title}</h2>
   <p>{t.contact.text}</p>
   <p>
+    <strong>{t.contact.locationLabel}:</strong>
+    {t.contact.location}
+  </p>
+  <p>
+    <strong>{t.contact.phoneLabel}:</strong>
+    <a href={`tel:${t.contact.phone.replace(/\s+/g, '')}`}>{t.contact.phone}</a>
+  </p>
+  <p>
     <strong>{t.contact.emailLabel}:</strong>
     <a href={`mailto:${t.contact.email}`}>{t.contact.email}</a>
+  </p>
+  <p>
+    <strong>{t.contact.linkedinLabel}:</strong>
+    <a href={`https://${t.contact.linkedin}`} target="_blank" rel="noreferrer">{t.contact.linkedin}</a>
   </p>
 </section>
 

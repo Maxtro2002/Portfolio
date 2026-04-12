@@ -10,6 +10,15 @@ interface Props {
 const { t, locale } = Astro.props;
 
 const source = locale === 'es' ? projectData.es : projectData.en;
+const toAnchor = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+const getExperienceAnchor = (company: string, role: string) => `experience-${toAnchor(`${company}-${role}`)}`;
+const getProjectAnchor = (name: string) => `project-${toAnchor(name)}`;
 const labels =
   locale === 'es'
     ? {
@@ -27,32 +36,38 @@ const labels =
 
   <h3>{labels.experience}</h3>
   <div class="skills-grid">
-    {source.experience.map((job) => (
-      <article class="skill-card">
-        <p class="entity">{job.company}</p>
-        <p class="role">{job.role}</p>
-        <ul class="chips">
-          {[...new Set(job.techStack)].map((skill) => (
-            <li>{skill}</li>
-          ))}
-        </ul>
-      </article>
-    ))}
+    {source.experience.map((job) => {
+      const anchorId = getExperienceAnchor(job.company, job.role);
+      return (
+        <a class="skill-card" href={`#${anchorId}`}>
+          <p class="entity">{job.company}</p>
+          <p class="role">{job.role}</p>
+          <ul class="chips">
+            {[...new Set(job.techStack)].map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+        </a>
+      );
+    })}
   </div>
 
   <h3>{labels.freelance}</h3>
   <div class="skills-grid">
-    {source.freelance.map((project) => (
-      <article class="skill-card">
-        <p class="entity">{project.name}</p>
-        <p class="role">{project.type}</p>
-        <ul class="chips">
-          {[...new Set(project.techStack)].map((skill) => (
-            <li>{skill}</li>
-          ))}
-        </ul>
-      </article>
-    ))}
+    {source.freelance.map((project) => {
+      const anchorId = getProjectAnchor(project.name);
+      return (
+        <a class="skill-card" href={`#${anchorId}`}>
+          <p class="entity">{project.name}</p>
+          <p class="role">{project.type}</p>
+          <ul class="chips">
+            {[...new Set(project.techStack)].map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+        </a>
+      );
+    })}
   </div>
 </section>
 
@@ -69,10 +84,20 @@ const labels =
   }
 
   .skill-card {
+    display: block;
     border: 1px solid var(--border);
     border-radius: 0.7rem;
     padding: 0.75rem;
     background: color-mix(in srgb, var(--bg) 90%, var(--accent) 10%);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .skill-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
+    background: color-mix(in srgb, var(--bg) 84%, var(--accent) 16%);
   }
 
   .entity {

@@ -9,6 +9,13 @@ interface Props {
 
 const { t, locale } = Astro.props;
 const source = locale === 'es' ? projectData.es : projectData.en;
+const toAnchor = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 ---
 
 <section id="projects">
@@ -16,7 +23,7 @@ const source = locale === 'es' ? projectData.es : projectData.en;
 
   <div class="project-grid">
     {source.freelance.map((project) => (
-      <article class="project-card">
+      <article class="project-card" id={`project-${toAnchor(project.name)}`}>
         <h3>{project.name}</h3>
         <p class="type">{project.type}</p>
         <p>{project.description}</p>
@@ -54,6 +61,7 @@ const source = locale === 'es' ? projectData.es : projectData.en;
     border-radius: 0.8rem;
     padding: 0.9rem;
     background: color-mix(in srgb, var(--bg) 92%, var(--accent) 8%);
+    scroll-margin-top: 6.5rem;
   }
 
   .project-card h3 {

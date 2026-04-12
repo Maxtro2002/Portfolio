@@ -16,20 +16,28 @@ const { locale, t } = Astro.props;
     <a href="#projects">{t.nav.projects}</a>
     <a href="#experience">{t.nav.experience}</a>
     <a href="#contact">{t.nav.contact}</a>
-    <label class="language-selector">
-      <span>{t.nav.langLabel}</span>
-      <select data-language-select value={locale} aria-label={t.nav.langLabel}>
-        <option value="es">🇪🇸 Espanol</option>
-        <option value="en">🇺🇸 English</option>
-      </select>
-    </label>
+    <details class="language-selector">
+      <summary aria-label={t.nav.langLabel}>
+        <span class="flag">{locale === 'es' ? '🇪🇸' : '🇺🇸'}</span>
+        <span>{locale === 'es' ? 'Español' : 'English'}</span>
+      </summary>
+      <div class="language-menu" role="menu" aria-label={t.nav.langLabel}>
+        <a href={`/?lang=es`} class={locale === 'es' ? 'active' : ''} role="menuitem">
+          <span class="flag">🇪🇸</span>
+          <span>Español</span>
+        </a>
+        <a href={`/?lang=en`} class={locale === 'en' ? 'active' : ''} role="menuitem">
+          <span class="flag">🇺🇸</span>
+          <span>English</span>
+        </a>
+      </div>
+    </details>
     <button type="button" data-theme-toggle aria-label="Cambiar tema"></button>
   </nav>
 </header>
 
 <script is:inline>
   const button = document.querySelector('[data-theme-toggle]');
-  const languageSelect = document.querySelector('[data-language-select]');
   const root = document.documentElement;
 
   const getThemeLabel = () => (root.dataset.theme === 'dark' ? 'Tema: oscuro' : 'Tema: claro');
@@ -52,15 +60,6 @@ const { locale, t } = Astro.props;
     root.style.colorScheme = nextTheme;
     localStorage.setItem('theme', nextTheme);
     syncButton();
-  });
-
-  languageSelect?.addEventListener('change', (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLSelectElement)) return;
-
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', target.value);
-    window.location.href = url.toString();
   });
 </script>
 
@@ -92,19 +91,64 @@ const { locale, t } = Astro.props;
 
   .language-selector {
     margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-weight: 600;
+    position: relative;
   }
 
-  .language-selector select {
+  .language-selector summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
     border-radius: 999px;
-    padding: 0.45rem 0.75rem;
+    padding: 0.5rem 0.85rem;
     cursor: pointer;
+    user-select: none;
+  }
+
+  .language-selector summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .language-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    min-width: 7.5rem;
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.3rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 0.8rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+  }
+
+  .language-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 0.55rem;
+    color: var(--text);
+  }
+
+  .language-menu a:hover {
+    background: color-mix(in srgb, var(--bg) 85%, var(--accent) 15%);
+  }
+
+  .language-menu a.active {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .flag {
+    display: inline-block;
+    font-size: 1.15rem;
+    line-height: 1;
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
   }
 
   button {

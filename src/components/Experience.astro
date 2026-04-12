@@ -1,14 +1,124 @@
 ---
-import type { TranslationSchema } from '../i18n/translations';
+import projectData from '../../data/projects/projects.json';
+import type { Locale, TranslationSchema } from '../i18n/translations';
 
 interface Props {
   t: TranslationSchema;
+  locale: Locale;
 }
 
-const { t } = Astro.props;
+const { t, locale } = Astro.props;
+const source = locale === 'es' ? projectData.es : projectData.en;
+const toAnchor = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 ---
 
 <section id="experience">
   <h2>{t.experience.title}</h2>
-  <p>{t.experience.empty}</p>
+
+  <div class="experience-timeline">
+    {source.experience.map((job, index) => (
+      <article class="experience-card" id={`experience-${toAnchor(`${job.company}-${job.role}`)}`}>
+        <div class="header">
+          <div>
+            <h3>{job.company}</h3>
+            <p class="role">{job.role}</p>
+          </div>
+          <time class="period">{job.period}</time>
+        </div>
+
+        <ul class="highlights">
+          {job.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+
+        <ul class="tech-stack">
+          {[...new Set(job.techStack)].map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+
+        {index < source.experience.length - 1 && <div class="divider"></div>}
+      </article>
+    ))}
+  </div>
 </section>
+
+<style>
+  #experience {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .experience-timeline {
+    display: grid;
+    gap: 0;
+  }
+
+  .experience-card {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.1rem;
+    padding: 0.85rem 0.85rem 0.85rem 1.1rem;
+    scroll-margin-top: 6.5rem;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .experience-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .role {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .period {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .highlights {
+    margin: 0.55rem 0 0.65rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .tech-stack {
+    list-style: none;
+    margin: 0.55rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tech-stack li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.85rem 0;
+  }
+</style>

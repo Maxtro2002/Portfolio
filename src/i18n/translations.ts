@@ -27,7 +27,7 @@ export const translations = {
     },
     about: {
       title: 'Sobre mi',
-      text: 'Desarrollador Full Stack enfocado en crear productos web escalables, mantenibles y centrados en resultados.',
+      text: 'Ingeniero de sistemas especializado en desarrollo backend con Java y Spring Boot, complementado con experiencia solida en desarrollo movil (Kotlin y Flutter). Experiencia en el diseno de sistemas escalables, optimizacion de APIs y desarrollo de soluciones end-to-end. Adicionalmente, integro herramientas y flujos de trabajo basados en inteligencia artificial (IA) dentro de proyectos de software para mejorar la productividad, automatizar procesos y apoyar la toma de decisiones basada en datos, manteniendo siempre un enfoque en el criterio humano, la calidad del codigo y las buenas practicas de ingenieria.',
     },
     skills: {
       title: 'Habilidades',
@@ -61,8 +61,14 @@ export const translations = {
     contact: {
       title: 'Contacto',
       text: 'Disponible para colaborar en equipos y proyectos de alto impacto.',
+      locationLabel: 'Ubicacion',
+      location: 'Envigado, Colombia (GMT-5)',
+      phoneLabel: 'Telefono',
+      phone: '+57 321 3354756',
       emailLabel: 'Email',
-      email: 'tu-correo@ejemplo.com',
+      email: 'santipr2002@outlook.com',
+      linkedinLabel: 'LinkedIn',
+      linkedin: 'linkedin.com/in/santiago-pelaez-r',
     },
   },
   en: {
@@ -121,8 +127,14 @@ export const translations = {
     contact: {
       title: 'Contact',
       text: 'Open to collaborate with teams and high-impact products.',
+      locationLabel: 'Location',
+      location: 'Envigado, Colombia (GMT-5)',
+      phoneLabel: 'Phone',
+      phone: '+57 321 3354756',
       emailLabel: 'Email',
-      email: 'your-email@example.com',
+      email: 'santipr2002@outlook.com',
+      linkedinLabel: 'LinkedIn',
+      linkedin: 'linkedin.com/in/santiago-pelaez-r',
     },
   },
 } as const;
