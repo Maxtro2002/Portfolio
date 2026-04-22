@@ -16,39 +16,154 @@ const toAnchor = (value: string) =>
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+const copy =
+  locale === 'es'
+    ? {
+        open: 'Ver mas',
+        close: 'Cerrar',
+        stack: 'Stack',
+        detailsLabel: 'Detalle de experiencia',
+      }
+    : {
+        open: 'See more',
+        close: 'Close',
+        stack: 'Stack',
+        detailsLabel: 'Experience details',
+      };
 ---
 
 <section id="experience">
   <h2>{t.experience.title}</h2>
 
-  <div class="experience-timeline">
+  <div class="experience-grid">
     {source.experience.map((job, index) => (
-      <article class="experience-card" id={`experience-${toAnchor(`${job.company}-${job.role}`)}`}>
-        <div class="header">
-          <div>
+      <>
+        <button
+          type="button"
+          class="experience-card"
+          id={`experience-${toAnchor(`${job.company}-${job.role}`)}`}
+          data-open-experience-dialog={`experience-dialog-${index}`}
+        >
+          <div class="header">
+            <div>
+              <h3>{job.company}</h3>
+              <p class="role">{job.role}</p>
+            </div>
+            <time class="period">{job.period}</time>
+          </div>
+
+          <ul class="highlights">
+            {job.highlights.slice(0, 2).map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+
+          <p class="cta">{copy.open}</p>
+        </button>
+
+        <dialog id={`experience-dialog-${index}`} aria-label={copy.detailsLabel}>
+          <article class="dialog-content">
+            <button
+              type="button"
+              class="dialog-close"
+              data-close-experience-dialog
+              aria-label={copy.close}
+              title={copy.close}
+            >
+              X
+            </button>
+
             <h3>{job.company}</h3>
             <p class="role">{job.role}</p>
-          </div>
-          <time class="period">{job.period}</time>
-        </div>
+            <p class="period dialog-period">{job.period}</p>
 
-        <ul class="highlights">
-          {job.highlights.map((highlight) => (
-            <li>{highlight}</li>
-          ))}
-        </ul>
+            <ul class="highlights dialog-highlights">
+              {job.highlights.map((highlight) => (
+                <li>{highlight}</li>
+              ))}
+            </ul>
 
-        <ul class="tech-stack">
-          {[...new Set(job.techStack)].map((skill) => (
-            <li>{skill}</li>
-          ))}
-        </ul>
-
-        {index < source.experience.length - 1 && <div class="divider"></div>}
-      </article>
+            <p class="stack-title">{copy.stack}</p>
+            <ul class="tech-stack">
+              {[...new Set(job.techStack)].map((skill) => (
+                <li>{skill}</li>
+              ))}
+            </ul>
+          </article>
+        </dialog>
+      </>
     ))}
   </div>
 </section>
+
+<script is:inline>
+  (() => {
+    const lockScroll = () => {
+      const current = Number(document.body.dataset.dialogOpenCount ?? '0');
+      const next = current + 1;
+      document.body.dataset.dialogOpenCount = String(next);
+      document.body.style.overflow = 'hidden';
+    };
+
+    const unlockScroll = () => {
+      const current = Number(document.body.dataset.dialogOpenCount ?? '0');
+      const next = Math.max(0, current - 1);
+
+      if (next === 0) {
+        delete document.body.dataset.dialogOpenCount;
+        document.body.style.overflow = '';
+      } else {
+        document.body.dataset.dialogOpenCount = String(next);
+      }
+    };
+
+    const openButtons = document.querySelectorAll('[data-open-experience-dialog]');
+
+    openButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const dialogId = button.getAttribute('data-open-experience-dialog');
+        if (!dialogId) return;
+        const dialog = document.getElementById(dialogId);
+        if (dialog instanceof HTMLDialogElement && !dialog.open) {
+          dialog.showModal();
+          lockScroll();
+        }
+      });
+    });
+
+    const closeButtons = document.querySelectorAll('[data-close-experience-dialog]');
+
+    closeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const dialog = button.closest('dialog');
+        if (dialog instanceof HTMLDialogElement) {
+          dialog.close();
+        }
+      });
+    });
+
+    const dialogs = document.querySelectorAll('dialog[id^="experience-dialog-"]');
+
+    dialogs.forEach((dialog) => {
+      dialog.addEventListener('close', () => {
+        unlockScroll();
+      });
+
+      dialog.addEventListener('click', (event) => {
+        const bounds = dialog.getBoundingClientRect();
+        const isInside =
+          event.clientX >= bounds.left &&
+          event.clientX <= bounds.right &&
+          event.clientY >= bounds.top &&
+          event.clientY <= bounds.bottom;
+
+        if (!isInside) {
+          dialog.close();
+        }
+      });
+    });
+  })();
+</script>
 
 <style>
   #experience {
@@ -56,16 +171,26 @@ const toAnchor = (value: string) =>
     gap: 0.85rem;
   }
 
-  .experience-timeline {
+  .experience-grid {
     display: grid;
-    gap: 0;
+    gap: 0.75rem;
   }
 
   .experience-card {
-    border-left: 2px solid var(--accent);
-    padding-left: 1.1rem;
-    padding: 0.85rem 0.85rem 0.85rem 1.1rem;
+    width: 100%;
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    padding: 0.9rem;
+    background: color-mix(in srgb, var(--bg) 92%, var(--accent) 8%);
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease;
     scroll-margin-top: 6.5rem;
+  }
+
+  .experience-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border) 60%);
   }
 
   .header {
@@ -94,15 +219,63 @@ const toAnchor = (value: string) =>
   }
 
   .highlights {
-    margin: 0.55rem 0 0.65rem;
+    margin: 0.55rem 0 0;
     padding-left: 1.1rem;
     display: grid;
     gap: 0.35rem;
   }
 
+  .cta {
+    margin-top: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  dialog {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    width: min(680px, 92vw);
+    border-radius: 1rem;
+    padding: 0;
+  }
+
+  dialog::backdrop {
+    background: rgba(5, 8, 15, 0.65);
+  }
+
+  .dialog-content {
+    padding: 1rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .dialog-close {
+    justify-self: end;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text);
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .dialog-period {
+    margin-top: -0.3rem;
+  }
+
+  .dialog-highlights {
+    margin-top: 0;
+  }
+
+  .stack-title {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
   .tech-stack {
     list-style: none;
-    margin: 0.55rem 0 0;
+    margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -114,11 +287,5 @@ const toAnchor = (value: string) =>
     border-radius: 999px;
     padding: 0.25rem 0.55rem;
     font-size: 0.8rem;
-  }
-
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0.85rem 0;
   }
 </style>

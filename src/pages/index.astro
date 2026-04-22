@@ -18,9 +18,25 @@ const t = getTranslation(locale);
 	<main>
 		<Hero t={t} />
 		<About t={t} />
+		<div class="work-columns">
+			<Experience t={t} locale={locale} />
+			<Projects t={t} locale={locale} />
+		</div>
 		<Skills t={t} locale={locale} />
-		<Projects t={t} locale={locale} />
-		<Experience t={t} locale={locale} />
 		<Contact t={t} />
 	</main>
 </MainLayout>
+
+<style>
+	.work-columns {
+		display: grid;
+		gap: 1rem;
+	}
+
+	@media (min-width: 980px) {
+		.work-columns {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+		}
+	}
+</style>

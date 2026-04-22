@@ -1,5 +1,4 @@
 ---
-import projectData from '../../data/projects/projects.json';
 import type { Locale, TranslationSchema } from '../i18n/translations';
 
 interface Props {
@@ -7,124 +6,41 @@ interface Props {
   locale: Locale;
 }
 
-const { t, locale } = Astro.props;
-
-const source = locale === 'es' ? projectData.es : projectData.en;
-const toAnchor = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-const getExperienceAnchor = (company: string, role: string) => `experience-${toAnchor(`${company}-${role}`)}`;
-const getProjectAnchor = (name: string) => `project-${toAnchor(name)}`;
-const labels =
-  locale === 'es'
-    ? {
-        experience: 'Experiencia profesional',
-        freelance: 'Proyectos freelance',
-      }
-    : {
-        experience: 'Professional experience',
-        freelance: 'Freelance projects',
-      };
+const { t } = Astro.props;
 ---
 
 <section id="skills">
   <h2>{t.skills.title}</h2>
-
-  <h3>{labels.experience}</h3>
   <div class="skills-grid">
-    {source.experience.map((job) => {
-      const anchorId = getExperienceAnchor(job.company, job.role);
-      return (
-        <a class="skill-card" href={`#${anchorId}`}>
-          <p class="entity">{job.company}</p>
-          <p class="role">{job.role}</p>
-          <ul class="chips">
-            {[...new Set(job.techStack)].map((skill) => (
-              <li>{skill}</li>
-            ))}
-          </ul>
-        </a>
-      );
-    })}
-  </div>
-
-  <h3>{labels.freelance}</h3>
-  <div class="skills-grid">
-    {source.freelance.map((project) => {
-      const anchorId = getProjectAnchor(project.name);
-      return (
-        <a class="skill-card" href={`#${anchorId}`}>
-          <p class="entity">{project.name}</p>
-          <p class="role">{project.type}</p>
-          <ul class="chips">
-            {[...new Set(project.techStack)].map((skill) => (
-              <li>{skill}</li>
-            ))}
-          </ul>
-        </a>
-      );
-    })}
+    {t.skills.items.map((skill) => (
+      <article class="skill-card">
+        <p>{skill}</p>
+      </article>
+    ))}
   </div>
 </section>
 
 <style>
-  h3 {
-    margin: 1rem 0 0.6rem;
-    font-size: 1rem;
+  #skills {
+    display: grid;
+    gap: 0.85rem;
   }
 
   .skills-grid {
     display: grid;
     gap: 0.75rem;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   }
 
   .skill-card {
-    display: block;
     border: 1px solid var(--border);
     border-radius: 0.7rem;
     padding: 0.75rem;
     background: color-mix(in srgb, var(--bg) 90%, var(--accent) 10%);
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
   }
 
-  .skill-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
-    background: color-mix(in srgb, var(--bg) 84%, var(--accent) 16%);
-  }
-
-  .entity {
+  .skill-card p {
     font-weight: 700;
-    margin: 0;
-  }
-
-  .role {
-    margin: 0.2rem 0 0.65rem;
-    color: var(--muted);
-    font-size: 0.92rem;
-  }
-
-  .chips {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.35rem;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-
-  .chips li {
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.25rem 0.55rem;
-    font-size: 0.85rem;
     text-align: center;
   }
 </style>
