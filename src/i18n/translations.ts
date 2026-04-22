@@ -74,7 +74,7 @@ export const translations = {
   en: {
     site: {
       title: 'Portfolio',
-      description: 'Professional portfolio of Santiago Pelaez.',
+      description: "Santiago Pelaez's professional portfolio.",
     },
     nav: {
       about: 'About',
@@ -85,15 +85,15 @@ export const translations = {
       langLabel: 'Language',
     },
     hero: {
-      greeting: 'Hi, I am',
+      greeting: "Hi, I'm",
       name: 'Santiago Pelaez',
-      role: 'Full Stack Developer',
-      ctaPrimary: 'View projects',
-      ctaSecondary: 'Contact me',
+      role: 'Full-stack Developer',
+      ctaPrimary: 'See projects',
+      ctaSecondary: 'Get in touch',
     },
     about: {
       title: 'About',
-      text: 'Full Stack Developer focused on building scalable, maintainable products with measurable business impact.',
+      text: 'Systems engineer specializing in backend development with Java and Spring Boot, with solid experience in mobile development using Kotlin and Flutter. I design scalable systems, optimize APIs, and build end-to-end solutions. I also integrate AI-based tools and workflows into software projects to improve productivity, automate processes, and support data-driven decisions, while keeping a strong focus on human judgment, code quality, and sound engineering practices.',
     },
     skills: {
       title: 'Skills',
@@ -118,15 +118,15 @@ export const translations = {
     },
     projects: {
       title: 'Projects',
-      empty: 'Projects have been saved and will be refined in the next iteration.',
+      empty: 'Projects are being organized and will be refined in the next iteration.',
     },
     experience: {
       title: 'Experience',
-      empty: 'Professional experience is being prepared from your CV.',
+      empty: 'Professional experience is being prepared from the CV.',
     },
     contact: {
       title: 'Contact',
-      text: 'Open to collaborate with teams and high-impact products.',
+      text: 'Open to collaborating with teams and high-impact products.',
       locationLabel: 'Location',
       location: 'Envigado, Colombia (GMT-5)',
       phoneLabel: 'Phone',
