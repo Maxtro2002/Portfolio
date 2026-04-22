@@ -1,0 +1,41 @@
+---
+import About from './About.astro';
+import Contact from './Contact.astro';
+import Experience from './Experience.astro';
+import Hero from './Hero.astro';
+import Projects from './Projects.astro';
+import Skills from './Skills.astro';
+import type { Locale, TranslationSchema } from '../i18n/translations';
+
+interface Props {
+	t: TranslationSchema;
+	locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+---
+
+<main>
+	<Hero t={t} />
+	<About t={t} />
+	<div class="work-columns">
+		<Experience t={t} locale={locale} />
+		<Projects t={t} locale={locale} />
+	</div>
+	<Skills t={t} locale={locale} />
+	<Contact t={t} />
+</main>
+
+<style>
+	.work-columns {
+		display: grid;
+		gap: 1rem;
+	}
+
+	@media (min-width: 980px) {
+		.work-columns {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: start;
+		}
+	}
+</style>

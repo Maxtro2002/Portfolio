@@ -1,42 +1,14 @@
 ---
-import About from '../components/About.astro';
-import Contact from '../components/Contact.astro';
-import Experience from '../components/Experience.astro';
-import Hero from '../components/Hero.astro';
+import Home from '../components/Home.astro';
 import Navbar from '../components/Navbar.astro';
-import Projects from '../components/Projects.astro';
-import Skills from '../components/Skills.astro';
 import MainLayout from '../layouts/MainLayout.astro';
-import { getLocaleFromUrl, getTranslation } from '../i18n/translations';
+import { defaultLocale, getTranslation } from '../i18n/translations';
 
-const locale = getLocaleFromUrl(Astro.url);
+const locale = defaultLocale;
 const t = getTranslation(locale);
 ---
 
 <MainLayout title={t.site.title} description={t.site.description} locale={locale}>
 	<Navbar t={t} locale={locale} />
-	<main>
-		<Hero t={t} />
-		<About t={t} />
-		<div class="work-columns">
-			<Experience t={t} locale={locale} />
-			<Projects t={t} locale={locale} />
-		</div>
-		<Skills t={t} locale={locale} />
-		<Contact t={t} />
-	</main>
+	<Home t={t} locale={locale} />
 </MainLayout>
-
-<style>
-	.work-columns {
-		display: grid;
-		gap: 1rem;
-	}
-
-	@media (min-width: 980px) {
-		.work-columns {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			align-items: start;
-		}
-	}
-</style>

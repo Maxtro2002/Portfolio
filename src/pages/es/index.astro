@@ -1,0 +1,14 @@
+---
+import Home from '../../components/Home.astro';
+import Navbar from '../../components/Navbar.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getTranslation } from '../../i18n/translations';
+
+const locale = 'es';
+const t = getTranslation(locale);
+---
+
+<MainLayout title={t.site.title} description={t.site.description} locale={locale}>
+	<Navbar t={t} locale={locale} />
+	<Home t={t} locale={locale} />
+</MainLayout>
